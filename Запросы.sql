@@ -2,17 +2,13 @@
 
 DECLARE @Date DATETIME;
 
-SET @Date = '20221201' -- Ввести сюда интересующую дату
+SET @Date = '20221201' 
 
-SELECT Id, Name 
-FROM Goods
-WHERE Id IN (SELECT Id
-        		from Goods
-        		EXCEPT
-        		SELECT Goodid
-        		FROM GoodProperties
-        		Where @Date NOT BETWEEN BDate and EDate)
-
+SELECT *
+FROM Goods AS goodsoid
+WHERE NOT EXISTS (SELECT *
+		FROM GoodProperties
+		WHERE @Date BETWEEN BDate and EDate and GoodId = goodsoid.id)
 
 ------------------------------------------------------------------------------------
 
